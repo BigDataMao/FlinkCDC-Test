@@ -24,7 +24,7 @@ public class MyOracleDebeziumDeserializationSchema implements DebeziumDeserializ
         // 获取操作类型
         Envelope.Operation operation = Envelope.operationFor(sourceRecord);
 
-        // 获取操作数据
+        // 获取before
         Struct value = (Struct) sourceRecord.value();
         Struct before = value.getStruct("before");
         JSONObject beforeJSON = new JSONObject();
