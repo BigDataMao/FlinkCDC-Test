@@ -14,8 +14,9 @@ public class ClickSourceRun {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
-        DataStreamSource<Event> customSource = env.addSource(new ClickSource());
-        customSource.print();
+        DataStreamSource<Event> customSource01 = env.addSource(new ClickSource());
+//        DataStreamSource<Event> customSource02 = env.addSource(new ParallelClickSource()).setParallelism(2);
+        customSource01.print();
 
         env.execute("test custom source");
     }
