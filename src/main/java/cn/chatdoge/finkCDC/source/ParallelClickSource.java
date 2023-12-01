@@ -10,19 +10,14 @@ import java.util.Random;
  * @Author simon.mau
  * @Date 2023/11/27 21:55
  */
-public class ParallelClickSource implements ParallelSourceFunction<Event> {
+public class ParallelClickSource implements ParallelSourceFunction<Integer> {
     private boolean running = true;
-    String[] ids = {"Alice", "Bob", "Cindy", "David"};
-    String[] urls = {"www.baidu.com", "www.google.com", "www.bing.com", "www.360.com"};
 
-    Random random = new Random();
     @Override
-    public void run(SourceContext<Event> sourceContext) throws Exception {
+    public void run(SourceContext<Integer> sourceContext) throws Exception {
         while (running) {
-            String id = ids[random.nextInt(ids.length)];
-            Long ts = System.currentTimeMillis();
-            String url = urls[random.nextInt(urls.length)];
-            sourceContext.collect(new Event(id, ts, url));
+            Random random = new Random();
+            sourceContext.collect(random.nextInt(100));
             Thread.sleep(1000);
         }
     }

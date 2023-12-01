@@ -13,10 +13,12 @@ public class ClickSourceRun {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
-
+        // 非并行数据源
         DataStreamSource<Event> customSource01 = env.addSource(new ClickSource());
-//        DataStreamSource<Event> customSource02 = env.addSource(new ParallelClickSource()).setParallelism(2);
         customSource01.print();
+        // 并行数据源
+        DataStreamSource<Integer> customSource02 = env.addSource(new ParallelClickSource()).setParallelism(2);
+        customSource02.print();
 
         env.execute("test custom source");
     }
