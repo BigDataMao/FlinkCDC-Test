@@ -1,4 +1,4 @@
-package cn.chatdoge.finkCDC;
+package cn.chatdoge.fink113;
 
 public class MyData {
     private int id;

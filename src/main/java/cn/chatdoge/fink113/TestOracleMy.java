@@ -1,6 +1,6 @@
-package cn.chatdoge.finkCDC;
+package cn.chatdoge.fink113;
 
-import cn.chatdoge.finkCDC.utils.MyOracleDebeziumDeserializationSchema;
+import cn.chatdoge.fink113.utils.MyOracleDebeziumDeserializationSchema;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ververica.cdc.connectors.base.options.StartupOptions;

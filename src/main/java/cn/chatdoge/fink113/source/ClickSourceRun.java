@@ -1,6 +1,6 @@
-package cn.chatdoge.finkCDC.source;
+package cn.chatdoge.fink113.source;
 
-import cn.chatdoge.finkCDC.utils.Event;
+import cn.chatdoge.fink113.utils.Event;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 

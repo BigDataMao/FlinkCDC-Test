@@ -1,12 +1,12 @@
-package cn.chatdoge.finkCDC.flinkSql;
+package cn.chatdoge.fink113.sinkAPI;
 
-import cn.chatdoge.finkCDC.source.ClickSource;
-import cn.chatdoge.finkCDC.utils.Event;
+import cn.chatdoge.fink113.source.ClickSource;
+import cn.chatdoge.fink113.utils.Event;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.table.api.DataTypes;
+
 import static org.apache.flink.table.api.Expressions.call;
 
 
