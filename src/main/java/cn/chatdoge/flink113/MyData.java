@@ -1,4 +1,4 @@
-package cn.chatdoge.fink113;
+package cn.chatdoge.flink113;
 
 public class MyData {
     private int id;

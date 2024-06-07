@@ -1,4 +1,4 @@
-package cn.chatdoge.fink113.utils;
+package cn.chatdoge.flink113.utils;
 
 // 类的注释
 

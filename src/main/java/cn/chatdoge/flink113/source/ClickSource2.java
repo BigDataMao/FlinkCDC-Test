@@ -1,6 +1,6 @@
-package cn.chatdoge.fink113.source;
+package cn.chatdoge.flink113.source;
 
-import cn.chatdoge.fink113.utils.EventOnlyIdAndUrl;
+import cn.chatdoge.flink113.utils.EventOnlyIdAndUrl;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.Random;

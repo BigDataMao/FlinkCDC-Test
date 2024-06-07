@@ -1,4 +1,4 @@
-package cn.chatdoge.fink113;
+package cn.chatdoge.flink113;
 
 import com.ververica.cdc.connectors.base.options.StartupOptions;
 import com.ververica.cdc.connectors.oracle.OracleSource;

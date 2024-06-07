@@ -1,4 +1,4 @@
-package cn.chatdoge.fink113;
+package cn.chatdoge.flink113;
 
 
 import com.ververica.cdc.connectors.mysql.MySqlSource;

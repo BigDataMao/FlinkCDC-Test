@@ -1,4 +1,4 @@
-package cn.chatdoge.fink113.source;
+package cn.chatdoge.flink113.source;
 
 import org.apache.flink.streaming.api.functions.source.ParallelSourceFunction;
 

@@ -1,4 +1,4 @@
-package cn.chatdoge.fink113;
+package cn.chatdoge.flink113;
 
 // Builder模式示例
 public class Car {

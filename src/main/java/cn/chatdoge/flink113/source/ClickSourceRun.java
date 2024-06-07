@@ -1,6 +1,6 @@
-package cn.chatdoge.fink113.source;
+package cn.chatdoge.flink113.source;
 
-import cn.chatdoge.fink113.utils.Event;
+import cn.chatdoge.flink113.utils.Event;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
@@ -17,8 +17,8 @@ public class ClickSourceRun {
         DataStreamSource<Event> customSource01 = env.addSource(new ClickSource());
         customSource01.print();
         // 并行数据源
-        DataStreamSource<Integer> customSource02 = env.addSource(new ParallelClickSource()).setParallelism(2);
-        customSource02.print();
+//        DataStreamSource<Integer> customSource02 = env.addSource(new ParallelClickSource()).setParallelism(2);
+//        customSource02.print();
 
         env.execute("test custom source");
     }
