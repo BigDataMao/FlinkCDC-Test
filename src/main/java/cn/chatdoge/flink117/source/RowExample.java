@@ -1,4 +1,4 @@
-package cn.chatdoge.flink113.source;
+package cn.chatdoge.flink117.source;
 
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.typeutils.RowTypeInfo;

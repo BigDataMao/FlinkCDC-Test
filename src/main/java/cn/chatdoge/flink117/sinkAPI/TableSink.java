@@ -1,8 +1,8 @@
-package cn.chatdoge.flink113.sinkAPI;
+package cn.chatdoge.flink117.sinkAPI;
 
-import cn.chatdoge.flink113.source.ClickSource;
-import cn.chatdoge.flink113.utils.Event;
-import cn.chatdoge.flink113.utils.IdCount;
+import cn.chatdoge.flink117.source.ClickSource;
+import cn.chatdoge.flink117.utils.Event;
+import cn.chatdoge.flink117.utils.IdCount;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
 import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
 import org.apache.flink.connector.jdbc.JdbcSink;

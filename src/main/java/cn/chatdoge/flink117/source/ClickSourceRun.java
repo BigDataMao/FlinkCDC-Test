@@ -1,6 +1,6 @@
-package cn.chatdoge.flink113.source;
+package cn.chatdoge.flink117.source;
 
-import cn.chatdoge.flink113.utils.Event;
+import cn.chatdoge.flink117.utils.Event;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 

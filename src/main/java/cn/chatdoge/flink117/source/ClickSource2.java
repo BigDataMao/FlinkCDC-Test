@@ -1,17 +1,16 @@
-package cn.chatdoge.flink113.source;
+package cn.chatdoge.flink117.source;
 
-import cn.chatdoge.flink113.utils.Event;
+import cn.chatdoge.flink117.utils.EventOnlyIdAndUrl;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.Random;
 
 /**
- * @Description: 自定义的数据源
- * 该方法并行度必须为1
- * @Author: Simon Mau
- * @Date: 2023/11/27 16:32
+ * @Description
+ * @Author simon.mau
+ * @Date 2023/12/3 22:40
  */
-public class ClickSource implements SourceFunction<Event> {
+public class ClickSource2 implements SourceFunction<EventOnlyIdAndUrl>{
     private boolean running = true;
     String[] ids = {"Alice", "Bob", "Cindy", "David"};
     String[] urls = {"www.baidu.com", "www.google.com", "www.bing.com", "www.360.com"};
@@ -19,12 +18,12 @@ public class ClickSource implements SourceFunction<Event> {
     Random random = new Random();
 
     @Override
-    public void run(SourceContext<Event> ctx) throws Exception {
+    public void run(SourceFunction.SourceContext<EventOnlyIdAndUrl> ctx) throws Exception {
         while (running) {
             String id = ids[random.nextInt(ids.length)];
             Long ts = System.currentTimeMillis();
             String url = urls[random.nextInt(urls.length)];
-            ctx.collect(new Event(id, ts, url));
+            ctx.collect(new EventOnlyIdAndUrl(id, url));
             Thread.sleep(1000);
         }
     }

@@ -1,6 +1,6 @@
-package cn.chatdoge.flink113;
+package cn.chatdoge.flink117;
 
-import cn.chatdoge.flink113.utils.MyOracleDebeziumDeserializationSchema;
+import cn.chatdoge.flink117.utils.MyOracleDebeziumDeserializationSchema;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ververica.cdc.connectors.base.options.StartupOptions;
