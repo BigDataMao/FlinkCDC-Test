@@ -6,14 +6,21 @@ import org.apache.doris.flink.sink.DorisSink;
 import org.apache.doris.flink.sink.writer.serializer.RowDataSerializer;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.reader.deserializer.KafkaRecordDeserializationSchema;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.DataTypes;
 import org.apache.flink.table.data.GenericRowData;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
+import org.apache.flink.util.Collector;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -38,6 +45,7 @@ public class KafkaSourceExample {
         KafkaSource<String> kafkaSource = KafkaSource.<String>builder()
                 .setProperties(prop)
                 .setTopics("flume-kafka-flink")
+                .setDeserializer(new CustomKafkaDeserializationSchema())
                 .build();
 
         // 添加数据源
@@ -77,4 +85,15 @@ public class KafkaSourceExample {
         env.execute("kafka source");
     }
 
+    private static class CustomKafkaDeserializationSchema implements KafkaRecordDeserializationSchema<String> {
+        @Override
+        public void deserialize(ConsumerRecord<byte[], byte[]> consumerRecord, Collector<String> collector) throws IOException {
+            collector.collect(new String(consumerRecord.value(), StandardCharsets.UTF_8));
+        }
+
+        @Override
+        public TypeInformation<String> getProducedType() {
+            return Types.STRING;
+        }
+    }
 }
