@@ -70,7 +70,11 @@ public class KafkaSourceExample {
 
         // 添加doris sink
         String[] fieldNames = {"uuid","dt","word"};
-        DataType[] types = {DataTypes.VARCHAR(255), DataTypes.STRING(), DataTypes.STRING()};
+        DataType[] types = {
+                DataTypes.VARCHAR(255),
+                DataTypes.TIMESTAMP(),
+                DataTypes.STRING()
+        };
         DorisSink.Builder<RowData> dorisBuilder = DorisSink.builder();
         dorisBuilder.setDorisOptions(dorisOptions)
                 .setDorisExecutionOptions(DorisExecutionOptions.builder().build())
