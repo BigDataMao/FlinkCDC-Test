@@ -31,23 +31,23 @@ public class SimpleExample {
                 "  'fields.name.length'='10'\n" +
                 ")");
 
-        Table myTable = tableEnv.sqlQuery("SELECT id FROM dataGen");
+//        Table myTable = tableEnv.sqlQuery("SELECT id FROM dataGen");
+//
+//        // 注册表
+//        tableEnv.createTemporaryView("myTable", myTable);
+//        tableEnv.executeSql("SELECT * FROM myTable").print();
 
-        // 注册表
-        tableEnv.createTemporaryView("myTable", myTable);
-        tableEnv.executeSql("SELECT * FROM myTable").print();
-
-//        // 将表写入kafka
-//        tableEnv.executeSql("CREATE TABLE kafkaSink (\n" +
-//                "  id INT,\n" +
-//                "  name STRING\n" +
-//                ") WITH (\n" +
-//                "  'connector' = 'kafka',\n" +
-//                "  'topic' = 'test',\n" +
-//                "  'properties.bootstrap.servers' = 'localhost:9092',\n" +
-//                "  'format' = 'json'\n" +
-//                ")");
-//        tableEnv.executeSql("INSERT INTO kafkaSink SELECT * FROM dataGen");
+        // 将表写入kafka
+        tableEnv.executeSql("CREATE TABLE kafkaSink (\n" +
+                "  id INT,\n" +
+                "  name STRING\n" +
+                ") WITH (\n" +
+                "  'connector' = 'kafka',\n" +
+                "  'topic' = 'test',\n" +
+                "  'properties.bootstrap.servers' = 'localhost:9092',\n" +
+                "  'format' = 'json'\n" +
+                ")");
+        tableEnv.executeSql("INSERT INTO kafkaSink SELECT * FROM dataGen");
 
 
 
