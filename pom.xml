@@ -81,7 +81,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.5</version>
+            <version>8.0.28</version>
         </dependency>
 
         <!-- Kafka Connector -->
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.75</version>
+            <version>2.0.0</version>
         </dependency>
 
         <!-- 桥接器为主要依赖 -->
