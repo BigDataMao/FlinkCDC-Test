@@ -72,13 +72,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-jdbc</artifactId>
-<!--            <version>1.17-SNAPSHOT</version>-->
-            <version>1.16.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.28</version>
@@ -150,6 +143,13 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-json</artifactId>
             <version>${flink.version}</version>
+        </dependency>
+        <!-- 与JDBC交互 -->
+        <!--JDBC 连接器和驱动不在 Flink二进制发布包中,集群运行需要自己上传jar包-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-jdbc</artifactId>
+            <version>3.1.2-1.17</version>
         </dependency>
 
     </dependencies>
