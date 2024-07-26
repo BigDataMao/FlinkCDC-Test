@@ -5,21 +5,21 @@ package cn.chatdoge.flink117.utils;
  * @Author simon.mau
  * @Date 2023/12/5 20:43
  */
-public class IdCount {
+public class IdCount2 {
     private String id;
     private Integer idCount;
 
-    public IdCount() {
+    public IdCount2() {
     };
 
-    public IdCount(String id, Integer idCount) {
+    public IdCount2(String id, Integer idCount) {
         this.id = id;
         this.idCount = idCount;
     };
 
     @Override
     public String toString() {
-        return IdCount.class.getSimpleName() +
+        return IdCount2.class.getSimpleName() +
                 "{" +
                 "id='" + id + '\'' +
                 ", idCount=" + idCount +
@@ -29,8 +29,8 @@ public class IdCount {
     // 重写equals方法
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof IdCount) { // 判断是否是WaterSensor类型
-            IdCount idCount = (IdCount) obj;
+        if (obj instanceof IdCount2) { // 判断是否是WaterSensor类型
+            IdCount2 idCount = (IdCount2) obj;
             return this.id.equals(idCount.id) && this.idCount.equals(idCount.idCount);
         } else {
             return false;

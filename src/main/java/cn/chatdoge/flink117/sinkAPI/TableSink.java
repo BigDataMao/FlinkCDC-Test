@@ -2,7 +2,7 @@ package cn.chatdoge.flink117.sinkAPI;
 
 import cn.chatdoge.flink117.source.ClickSource;
 import cn.chatdoge.flink117.utils.Event;
-import cn.chatdoge.flink117.utils.IdCount;
+import cn.chatdoge.flink117.utils.IdCount2;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
 import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
 import org.apache.flink.connector.jdbc.JdbcSink;
@@ -42,13 +42,13 @@ public class TableSink {
                 .withPassword("mxw19910712@MYSQL")
                 .build();
 
-        SinkFunction<IdCount> sink = JdbcSink.sink(
+        SinkFunction<IdCount2> sink = JdbcSink.sink(
                 "INSERT INTO test.idCount (id, idCount) VALUES (?, ?) "
                         + "ON DUPLICATE KEY UPDATE idCount = VALUES(idCount)"
                 ,
-                new JdbcStatementBuilder<IdCount>() {
+                new JdbcStatementBuilder<IdCount2>() {
                     @Override
-                    public void accept(PreparedStatement preparedStatement, IdCount event) throws SQLException {
+                    public void accept(PreparedStatement preparedStatement, IdCount2 event) throws SQLException {
                         preparedStatement.setString(1, event.getId());
                         preparedStatement.setInt(2, event.getIdCount());
                     }
@@ -58,7 +58,7 @@ public class TableSink {
         );
 
         changelogStream.map(
-                row -> new IdCount(
+                row -> new IdCount2(
                         row.getField(0).toString(),
                         Integer.parseInt(row.getField(1).toString())
                 )
