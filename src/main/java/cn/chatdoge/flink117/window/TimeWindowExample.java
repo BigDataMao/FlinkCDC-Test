@@ -1,12 +1,16 @@
 package cn.chatdoge.flink117.window;
 
 import cn.chatdoge.flink117.POJO.IdCount;
+import oracle.ucp.common.waitfreepool.Tuple;
+import org.apache.flink.api.common.typeinfo.Types;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.types.AbstractDataType;
 
 public class TimeWindowExample {
     public static void main(String[] args) throws Exception {
@@ -29,32 +33,19 @@ public class TimeWindowExample {
                 ")");
 
         Table table = tableEnv.sqlQuery("select * from dataGen");
-
-        // 转化为DataStream
-        DataStream<IdCount> dataStream = tableEnv.toDataStream(table, IdCount.class);
-
-        // 创建第二个数据源,这个能正常应用window,上面的不行,因为...
-        DataStream<IdCount> dataStream2 = env.fromElements(
-                new IdCount(1, "a"),
-                new IdCount(2, "b"),
-                new IdCount(3, "c"),
-                new IdCount(4, "d"),
-                new IdCount(5, "e"),
-                new IdCount(6, "f"),
-                new IdCount(7, "g"),
-                new IdCount(8, "h"),
-                new IdCount(9, "i"),
-                new IdCount(10, "j"),
-                new IdCount(11, "a"),
-                new IdCount(12, "b")
+        DataStream<IdCount> dataStream = tableEnv.toDataStream(table, IdCount.class).map(
+                t -> new IdCount(t.getId(), t.getName())
         );
 
-        // 对于DataStream进行窗口操作
-        dataStream
-                .countWindowAll(3)
+//        // 转化为DataStream
+//        DataStream<Tuple2<Integer, String>> dataStream = tableEnv.toDataStream(table, IdCount.class)
+//                .map(t -> Tuple2.of(t.getId(), t.getName()))
+//                .returns(Types.TUPLE(Types.INT, Types.STRING));
+
+        // 按照id分组，每5秒统计一次
+        dataStream.countWindowAll(3)
                 .max("id")
-                .print()
-        ;
+                .print();
 
         env.execute();
     }
