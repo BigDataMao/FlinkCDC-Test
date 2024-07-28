@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class IdCount {
+public class IdName {
     private  Integer id;
     private  String name;
 }

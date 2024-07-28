@@ -16,7 +16,7 @@ public class Test {
 
     public static void main(String[] args) {
         // 替换为你要测试的类
-        boolean isPojo = isPojoClass(IdCount.class);
+        boolean isPojo = isPojoClass(IdName.class);
 
         if (isPojo) {
             System.out.println("This is a POJO class.");

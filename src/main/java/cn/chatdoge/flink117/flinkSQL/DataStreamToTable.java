@@ -1,6 +1,6 @@
 package cn.chatdoge.flink117.flinkSQL;
 
-import cn.chatdoge.flink117.POJO.IdCount;
+import cn.chatdoge.flink117.POJO.IdName;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
@@ -18,15 +18,15 @@ public class DataStreamToTable {
 
         // 创建一个DS,数据源为kafka
         // FlinkKafkaConsumer 已被弃用并将在 Flink 1.17 中移除，请改用 KafkaSource
-        KafkaSource<IdCount> stringKafkaSource = KafkaSource.<IdCount>builder()
+        KafkaSource<IdName> stringKafkaSource = KafkaSource.<IdName>builder()
                 .setBootstrapServers("localhost:9092")
                 .setTopics("test")
                 .setGroupId("consumer-group")
                 .setStartingOffsets(OffsetsInitializer.earliest())
-                .setValueOnlyDeserializer(new JsonDeserializationSchema<>(IdCount.class))
+                .setValueOnlyDeserializer(new JsonDeserializationSchema<>(IdName.class))
                 .build();
 
-        DataStreamSource<IdCount> dsSource = env.fromSource(
+        DataStreamSource<IdName> dsSource = env.fromSource(
                 stringKafkaSource,
                 WatermarkStrategy.noWatermarks(),
                 "kafka-source"
