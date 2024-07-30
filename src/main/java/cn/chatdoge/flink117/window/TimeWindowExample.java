@@ -25,9 +25,9 @@ public class TimeWindowExample {
                 ") WITH (\n" +
                 "  'connector' = 'datagen',\n" +
                 "  'rows-per-second'='1',\n" +
-                "  'fields.id.kind'='random',\n" +
-                "  'fields.id.min'='1',\n" +
-                "  'fields.id.max'='10',\n" +
+                "  'fields.id.kind'='sequence',\n" +
+                "  'fields.id.start'='1',\n" +
+                "  'fields.id.end'='100',\n" +
                 "  'fields.name.length'='5'\n" +
                 ")");
 
