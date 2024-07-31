@@ -15,9 +15,9 @@ public class TimeWindowExample {
                 CREATE TABLE kafkaSource (
                   id INT,
                   name STRING,
-                  event_time TIMESTAMP(3)
+                  event_time TIMESTAMP(3),
                   -- watermark
-                    --WATERMARK FOR event_time AS event_time - INTERVAL '5' SECOND
+                  WATERMARK FOR event_time AS event_time - INTERVAL '5' SECOND
                 ) WITH (
                   'connector' = 'kafka',
                     'topic' = 'outOfOrderDataStream',
@@ -26,28 +26,27 @@ public class TimeWindowExample {
                     'scan.startup.mode' = 'earliest-offset'
                 )""");
 
-//        // 创建滚动时间窗口,每5秒统计一次cnt值,connector为print
-//        tableEnv.executeSql("""
-//                CREATE TABLE timeWindowTable (
-//                  cnt BIGINT,
-//                  window_start TIMESTAMP(3),
-//                  window_end TIMESTAMP(3)
-//                ) WITH (
-//                  'connector' = 'print'
-//                )""");
-//
-//        // 执行窗口统计
-//        tableEnv.executeSql("""
-//                INSERT INTO timeWindowTable
-//                SELECT
-//                    COUNT(*),
-//                    TUMBLE_START(event_time, INTERVAL '5' SECOND),
-//                    TUMBLE_END(event_time, INTERVAL '5' SECOND)
-//                FROM kafkaSource
-//                GROUP BY TUMBLE(event_time, INTERVAL '5' SECOND)
-//                """);
+        // 创建滚动时间窗口,每5秒统计一次cnt值,connector为print
+        tableEnv.executeSql("""
+                CREATE TABLE timeWindowTable (
+                  cnt BIGINT,
+                  window_start TIMESTAMP(3),
+                  window_end TIMESTAMP(3)
+                ) WITH (
+                  'connector' = 'print'
+                )""");
 
-        tableEnv.executeSql("select * from kafkaSource").print();
+        // 执行窗口统计
+        tableEnv.executeSql("""
+                INSERT INTO timeWindowTable
+                SELECT
+                    COUNT(*),
+                    TUMBLE_START(event_time, INTERVAL '5' SECOND),
+                    TUMBLE_END(event_time, INTERVAL '5' SECOND)
+                FROM kafkaSource
+                GROUP BY TUMBLE(event_time, INTERVAL '5' SECOND)
+                """);
+
 
     }
 }
