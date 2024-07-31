@@ -17,34 +17,33 @@ public class ConnectorKafka {
         env.setParallelism(1);
 
         // 创建表,数据源为kafka
-        tableEnv.executeSql("CREATE TABLE kafkaSource (\n" +
-                "  id INT,\n" +
-                "  name STRING\n" +
-                ") WITH (\n" +
-                "  'connector' = 'kafka',\n" +
-                "  'topic' = 'test',\n" +
-                "  'properties.bootstrap.servers' = 'localhost:9092',\n" +
-                "  'format' = 'json',\n" +
-                "  'scan.startup.mode' = 'earliest-offset'\n" +
-                ")");
+        tableEnv.executeSql("""
+                CREATE TABLE kafkaSource (
+                  id INT,
+                  name STRING
+                ) WITH (
+                  'connector' = 'kafka',
+                  'topic' = 'test',
+                  'properties.bootstrap.servers' = 'localhost:9092',
+                  'format' = 'json',
+                  'scan.startup.mode' = 'earliest-offset'
+                )""");
 
         // 创建sink表,写入kafka
-        tableEnv.executeSql("CREATE TABLE kafkaSink (\n" +
-                "  id INT,\n" +
-                "  name STRING\n" +
-                ") WITH (\n" +
-                "  'connector' = 'kafka',\n" +
-                "  'topic' = 'testSink',\n" +
-                "  'properties.bootstrap.servers' = 'localhost:9092',\n" +
-                "  'format' = 'json',\n" +
-                "  'sink.partitioner' = 'round-robin'\n" +
-                ")");
+        tableEnv.executeSql("""
+                CREATE TABLE kafkaSink (
+                  id INT,
+                  name STRING
+                ) WITH (
+                  'connector' = 'kafka',
+                  'topic' = 'testSink',
+                  'properties.bootstrap.servers' = 'localhost:9092',
+                  'format' = 'json',
+                  'sink.partitioner' = 'round-robin'
+                )""");
 
         // 执行sink
         tableEnv.executeSql("INSERT INTO kafkaSink SELECT id, name FROM kafkaSource WHERE id = 1");
-
-
-
     }
 
 }
