@@ -77,6 +77,13 @@
             <version>8.0.28</version>
         </dependency>
 
+        <!-- Kafka Connector 真TM神奇,这行还不能删掉,删了就无法读kafka,只能写.明明跟后面重复的,擦 -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka</artifactId>
+            <version>1.17.2</version>
+        </dependency>
+
         <!-- doris Connector -->
         <dependency>
             <groupId>org.apache.doris</groupId>
