@@ -1,7 +1,15 @@
 package cn.chatdoge.flink117.window;
 
+import cn.chatdoge.flink117.POJO.Order;
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
+import org.apache.flink.formats.json.JsonDeserializationSchema;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+
+import java.time.Duration;
 
 /**
  * @author Samuel Mau
@@ -14,21 +22,39 @@ public class TimeWindowDS {
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
         env.setParallelism(1);
 
+//        // 创建表,数据源为kafka
+//        tableEnv.executeSql("""
+//                CREATE TABLE kafkaSource (
+//                  id INT,
+//                  name STRING,
+//                  event_time TIMESTAMP(3),
+//                  -- watermark
+//                  WATERMARK FOR event_time AS event_time - INTERVAL '5' SECOND
+//                ) WITH (
+//                  'connector' = 'kafka',
+//                    'topic' = 'outOfOrderDataStream',
+//                    'properties.bootstrap.servers' = 'localhost:9092',
+//                    'format' = 'json',
+//                    'scan.startup.mode' = 'latest-offset'  -- 从最新的offset开始读取,可以保证数据是实时的,无需删topic
+//                )""");
+
         // 创建表,数据源为kafka
-        tableEnv.executeSql("""
-                CREATE TABLE kafkaSource (
-                  id INT,
-                  name STRING,
-                  event_time TIMESTAMP(3),
-                  -- watermark
-                  WATERMARK FOR event_time AS event_time - INTERVAL '5' SECOND
-                ) WITH (
-                  'connector' = 'kafka',
-                    'topic' = 'outOfOrderDataStream',
-                    'properties.bootstrap.servers' = 'localhost:9092',
-                    'format' = 'json',
-                    'scan.startup.mode' = 'latest-offset'  -- 从最新的offset开始读取,可以保证数据是实时的,无需删topic
-                )""");
+        KafkaSource<Order> kafkaSource = KafkaSource.<Order>builder()
+                .setBootstrapServers("localhost:9092")
+                .setTopics("outOfOrderDataStream")
+                .setGroupId("idea")
+                .setStartingOffsets(OffsetsInitializer.latest())
+                .setValueOnlyDeserializer(new JsonDeserializationSchema<>(Order.class))
+                .build();
+        DataStreamSource<Order> kafkaSourceWithWaterMark = env.fromSource(
+                kafkaSource,
+                WatermarkStrategy.<Order>forBoundedOutOfOrderness(Duration.ofSeconds(5))
+                        .withTimestampAssigner((order, ts) -> order.getEvent_time().toInstant().toEpochMilli()),
+                "kafkaSource"
+        );
+
+
+        tableEnv.createTemporaryView("kafkaSource", kafkaSourceWithWaterMark);
 
         // 创建用于打印的表 (临时表)
         tableEnv.executeSql("""
@@ -68,6 +94,7 @@ public class TimeWindowDS {
                 GROUP BY TUMBLE(event_time, INTERVAL '5' SECOND)
                 """);
 
+        env.execute();
 
     }
 }
