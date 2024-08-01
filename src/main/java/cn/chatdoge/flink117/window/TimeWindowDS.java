@@ -5,12 +5,9 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 /**
  * @author Samuel Mau
- * @description 用来测试滚动时间窗口,结合watermark
- * 运行的时候需要跟GenerateOutOfOrderDataStream一起运行
- * 这样才能实时观察每条数据在什么时候触发窗口计算
+ * @description 同TimeWindowSQL.java,但是使用DataStream API(很少使用,且很难,除非业务需要自定义实现)
  */
-
-public class TimeWindowExample {
+public class TimeWindowDS {
     public static void main(String[] args) throws Exception {
         // 创建表环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -30,7 +27,7 @@ public class TimeWindowExample {
                     'topic' = 'outOfOrderDataStream',
                     'properties.bootstrap.servers' = 'localhost:9092',
                     'format' = 'json',
-                    'scan.startup.mode' = 'earliest-offset'
+                    'scan.startup.mode' = 'latest-offset'  -- 从最新的offset开始读取,可以保证数据是实时的,无需删topic
                 )""");
 
         // 创建用于打印的表 (临时表)
@@ -64,7 +61,7 @@ public class TimeWindowExample {
         tableEnv.executeSql("""
                 INSERT INTO timeWindowTable
                 SELECT
-                    COUNT(*),
+                    SUM(id),
                     TUMBLE_START(event_time, INTERVAL '5' SECOND),
                     TUMBLE_END(event_time, INTERVAL '5' SECOND)
                 FROM kafkaSource
