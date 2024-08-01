@@ -15,7 +15,7 @@ public class GenerateOutOfOrderDataStream {
                 CREATE TABLE dataGen (
                   id INT,
                   name STRING,
-                  event_time TIMESTAMP(3)
+                  event_time TIMESTAMP_LTZ(3)
                 ) WITH (
                   'connector' = 'datagen',
                   'rows-per-second'='1',
