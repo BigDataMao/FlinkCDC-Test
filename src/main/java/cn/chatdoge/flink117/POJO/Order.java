@@ -16,5 +16,5 @@ import java.sql.Timestamp;
 public class Order {
     private Integer id;
     private String name;
-    private Timestamp ts;
+    private Timestamp event_time;
 }
