@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 /**
  * @author Samuel Mau
@@ -16,5 +16,5 @@ import java.sql.Timestamp;
 public class Order {
     private Integer id;
     private String name;
-    private Timestamp event_time;
+    private OffsetDateTime event_time;
 }
