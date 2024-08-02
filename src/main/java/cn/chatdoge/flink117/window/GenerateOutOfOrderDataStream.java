@@ -30,7 +30,7 @@ public class GenerateOutOfOrderDataStream {
                 CREATE TABLE outOfOrderDataStream (
                   id INT,
                   name STRING,
-                  event_time TIMESTAMP(3)
+                  event_time TIMESTAMP_LTZ(3)
                 ) WITH (
                   'connector' = 'kafka',
                     'topic' = 'outOfOrderDataStream',
@@ -48,8 +48,5 @@ public class GenerateOutOfOrderDataStream {
                 FROM dataGen
                 """);
 
-
-
-//        env.execute();
     }
 }
