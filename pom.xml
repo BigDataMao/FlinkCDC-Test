@@ -104,9 +104,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>2.0.0</version>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.51</version>
         </dependency>
 
         <!-- 桥接器为主要依赖 -->
@@ -156,6 +156,19 @@
             <artifactId>lombok</artifactId>
             <version>1.18.32</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- Jackson Databind for JSON processing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.0</version> <!-- 请根据需要的最新版本进行选择 -->
+        </dependency>
+
+        <!-- Jackson Datatype for Java 8 Time -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.15.0</version> <!-- 请根据需要的最新版本进行选择 -->
         </dependency>
 
     </dependencies>

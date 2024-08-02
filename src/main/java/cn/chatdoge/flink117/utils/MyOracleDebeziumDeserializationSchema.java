@@ -1,7 +1,7 @@
 package cn.chatdoge.flink117.utils;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.ververica.cdc.connectors.shaded.org.apache.kafka.connect.data.Struct;
 import com.ververica.cdc.connectors.shaded.org.apache.kafka.connect.source.SourceRecord;
 import com.ververica.cdc.debezium.DebeziumDeserializationSchema;

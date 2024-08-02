@@ -1,8 +1,8 @@
 package cn.chatdoge.flink117;
 
 import cn.chatdoge.flink117.utils.MyOracleDebeziumDeserializationSchema;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.ververica.cdc.connectors.base.options.StartupOptions;
 import com.ververica.cdc.connectors.oracle.OracleSource;
 import com.ververica.cdc.debezium.DebeziumSourceFunction;
