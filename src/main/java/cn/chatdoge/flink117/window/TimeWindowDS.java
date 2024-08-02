@@ -3,6 +3,7 @@ package cn.chatdoge.flink117.window;
 import cn.chatdoge.flink117.POJO.Order;
 import cn.chatdoge.flink117.deserializationSchema.CustomOrderDeserializationSchema;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.formats.json.JsonDeserializationSchema;
@@ -17,7 +18,7 @@ import java.time.ZoneId;
 
 /**
  * @author Samuel Mau
- * @description 同TimeWindowSQL.java,但是使用DataStream API(很少使用,且很难,除非业务需要自定义实现)
+ * @description 同TimeWindowSQL.java, 但是使用DataStream API(很少使用,且很难,除非业务需要自定义实现)
  */
 public class TimeWindowDS {
     public static void main(String[] args) throws Exception {
@@ -35,22 +36,20 @@ public class TimeWindowDS {
                 .setValueOnlyDeserializer(new CustomOrderDeserializationSchema())
                 .build();
 
-        env.fromSource(kafkaSource,WatermarkStrategy.noWatermarks(),"kafkaSource")
+
+        DataStreamSource<Order> kafkaSourceWithWaterMark = env.fromSource(
+                kafkaSource,
+                WatermarkStrategy.<Order>forBoundedOutOfOrderness(Duration.ofSeconds(5))
+                        .withTimestampAssigner((order, ts) -> order.getEvent_time().toInstant().toEpochMilli()),
+                "kafkaSource"
+        );
+
+        // 执行窗口统计
+        kafkaSourceWithWaterMark
+                .windowAll(TumblingEventTimeWindows.of(Time.seconds(5)))
+                // .sum("id") // 类似的预制方法还有max,min,然后就没了,都得自己写
+                .aggregate(new MyCountAggFunction())
                 .print();
-
-
-//        DataStreamSource<Order> kafkaSourceWithWaterMark = env.fromSource(
-//                kafkaSource,
-//                WatermarkStrategy.<Order>forBoundedOutOfOrderness(Duration.ofSeconds(5))
-//                        .withTimestampAssigner((order, ts) -> order.getEvent_time().toInstant().toEpochMilli()),
-//                "kafkaSource"
-//        );
-
-//        // 执行窗口统计
-//        kafkaSourceWithWaterMark
-//                .windowAll(TumblingEventTimeWindows.of(Time.seconds(5)))
-//                .sum("id")
-//                .print();
 
 //        // 创建用于打印的表 (临时表)
 //        tableEnv.executeSql("""
@@ -92,5 +91,27 @@ public class TimeWindowDS {
 
         env.execute();
 
+    }
+
+    private static class MyCountAggFunction implements AggregateFunction<Order, Long, Long> {
+        @Override
+        public Long createAccumulator() {
+            return 0L;
+        }
+
+        @Override
+        public Long add(Order order, Long aLong) {
+            return aLong + 1;
+        }
+
+        @Override
+        public Long getResult(Long aLong) {
+            return aLong;
+        }
+
+        @Override
+        public Long merge(Long aLong, Long acc1) {
+            return aLong + acc1;
+        }
     }
 }
